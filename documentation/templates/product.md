@@ -72,7 +72,38 @@ Behaviour worth knowing:
 - If the product has no FAQ entries — or none with a question — the section outputs nothing at all.
 - The answer is a plain-text field, so it is rendered with `escape | newline_to_br`: line breaks survive, markup does not.
 
-Settings cover the heading and its size preset, the question size preset, caret-vs-plus icon, opening the first row by default, dividers and divider color, text and background color, section width, and vertical padding.
+The section accepts **no blocks** — its content comes entirely from the metafield, so the editor shows settings only.
+
+**Heading**
+
+| Setting | Type | Default | What it controls |
+|---|---|---|---|
+| `heading` | `text` (text) | `Frequently asked questions` | The heading above the accordion. Clearing it removes the heading; the rows still render. |
+| `heading_preset` | `select` (choice) | `h4` | Type preset for the heading — options: default (empty), `paragraph`, `h1`–`h6`. This is applied as a **class**, so the heading stays an `<h2>` element whatever you pick: it changes how the heading looks, not the document outline. Presets themselves are edited in theme settings → typography. |
+
+**Appearance**
+
+| Setting | Type | Default | What it controls |
+|---|---|---|---|
+| `question_preset` | `select` (choice) | `h5` | Type preset applied to each question (the `<summary>`) — same options as `heading_preset`. Labelled **Title preset** in the editor. |
+| `icon` | `select` (choice) | `caret` | Which open/close indicator shows — `caret` or `plus`. Both icons are always in the markup; this setting decides which one is displayed. |
+| `open_by_default` | `checkbox` (on/off) | off | Opens the first **rendered** row on load. Keyed off the first row that actually renders, so it still works when leading entries were skipped for a blank question. |
+| `dividers` | `checkbox` (on/off) | on | Horizontal rules between rows. |
+| `divider_color` | `color` (color) | theme default | Divider color. Only shown in the editor when `dividers` is on (`visible_if`). |
+| `text_color` | `color` (color) | theme default | Question and answer text color. |
+| `background_color` | `color` (color) | theme default | Section background. Setting either this or `text_color` triggers a `contrast-override` scope so the pair stays legible. |
+| `section_width` | `select` (choice) | `page-width` | Section width — `page-width` or `full-width`. |
+
+**Padding**
+
+| Setting | Type | Default | What it controls |
+|---|---|---|---|
+| `padding-block-start` | `range` (slider) | 0px (48px via preset) | Top padding, 0–100px. |
+| `padding-block-end` | `range` (slider) | 0px (48px via preset) | Bottom padding, 0–100px. |
+
+The schema default for both padding settings is `0`, but the section's **preset** sets them to `48`, so a section added through the editor starts with 48px top and bottom.
+
+The editor also shows a non-editable note above the settings: *"Questions and answers come from this product's FAQs metafield (`custom.faqs`). Nothing displays until FAQ entries are attached to the product."*
 
 ## Related
 

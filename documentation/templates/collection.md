@@ -39,7 +39,18 @@ Section settings of note: `products_per_page` controls page size, and `enable_in
 
 **`main-collection-list` — Collection list**
 
-Renders every collection as a card. It has no configured blocks in the template, so it uses its defaults. Settings cover the card grid (`layout_type`, `columns`, `mobile_columns`, `max_collections`) and, when `layout_type` is a carousel, the navigation icon style.
+Renders the store's collections as a grid of cards.
+
+| | Block | Notes |
+|---|---|---|
+| ▸ | `group` → `text` | The page heading, above the grid. The `text` block holds `<h1>Shop by collection</h1>`, so the `<h1>` comes from the block's rich text rather than from the section. |
+| ▸ | `_collection-card` _(static)_ | The repeated card. A fixed part of the layout — it cannot be removed in the editor. |
+| | ⤷ `collection-title` | The collection name under the image. |
+| | ⤷ `collection-card-image` _(static)_ | The card image, taken from the collection's image in the admin. |
+
+The card shows only a title and an image — unlike the product cards on the collection page, there is no `price` or `swatches` equivalent here.
+
+Section settings in use: a 3-column `grid` (`layout_type`), 2 columns on mobile, and **`max_collections` is `4`** — so the page shows at most four collections regardless of how many exist in the store. Raise that setting in the theme editor to surface more. `carousel_on_mobile` is off, so mobile gets a 2-column grid rather than a swipeable carousel; the `icons_style` / `icons_shape` settings only take effect when `layout_type` is a carousel.
 
 ## Related
 

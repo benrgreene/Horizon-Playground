@@ -13,7 +13,7 @@ The theme is a copy of Shopify's **Horizon** theme (v4.1.3). The connected store
 | [Product template](templates/product.md) | Product metafield definitions and the product page's sections |
 | [Collection template](templates/collection.md) | Collection metafields and the collection / collection-list pages |
 | [Page template](templates/page.md) | Page metafields and the page / contact page templates |
-| [FAQ metaobject](metaobjects/faq.md) | The `faq` metaobject — fields and how it is (not yet) used |
+| [FAQ metaobject](metaobjects/faq.md) | The `faq` metaobject — fields, and the section that renders it |
 
 ## How to read these docs
 
@@ -34,7 +34,8 @@ Definitions live in the store, not in the theme, so this documentation is only c
 
 ## A note on the current state
 
-This is an experimentation playground rather than a production store, and the docs reflect that honestly. Two gaps are called out where they occur:
+This is an experimentation playground rather than a production store, and the docs reflect that honestly. Three gaps are called out where they occur:
 
-- The `faq` metaobject and the `custom.faqs` product metafield are **defined in the store but never rendered by the theme** — see [the FAQ metaobject doc](metaobjects/faq.md).
+- The `faq` metaobject and the `custom.faqs` product metafield **are** rendered, by `sections/product-faqs.liquid` — but that section is **not in `templates/product.json`**, so a merchant has to add it to a product template before FAQs appear on the storefront. See [the FAQ metaobject doc](metaobjects/faq.md).
+- The two `test_data.*` product metafields are **defined in the store but never read by the theme** — see [the product template doc](templates/product.md).
 - The metafields the theme *does* read (`reviews.*`, `shopify.disclosure`) have **no definitions in this store** — see [the product template doc](templates/product.md).
