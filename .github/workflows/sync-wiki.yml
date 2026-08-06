@@ -1,16 +1,10 @@
 name: Sync docs to wiki
 on:
-  # `closed` is the only PR event that covers a merge — GitHub has no `merged`
-  # event type, so the job-level `if:` below filters out closed-without-merging.
-  pull_request:
-    types: [closed]
+  push:
     branches: [main]
     paths:
       - 'documentation/**'
       - '.github/workflows/sync-wiki.yml'
-  # Manual "Run workflow" button. Deliberately unfiltered by `paths` so an
-  # on-demand sync always runs — e.g. to recover after enabling Wikis.
-  workflow_dispatch:
 permissions:
   contents: write
 concurrency:
@@ -18,24 +12,15 @@ concurrency:
   cancel-in-progress: true
 jobs:
   sync-wiki:
-    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      # On a `closed` event, checkout would otherwise default to refs/pull/N/merge —
-      # a stale pre-merge test commit. merge_commit_sha is what actually landed on
-      # main (correct for merge, squash, and rebase strategies alike).
       - name: Check out repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.merge_commit_sha || github.ref }}
 
       - name: Mirror documentation to the wiki
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DOCS_DIR: documentation
-          # GITHUB_SHA on a pull_request event is the merge-ref SHA, which does not
-          # exist in the repo's history — cite the commit that landed on main instead.
-          SOURCE_SHA: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
         run: |
           set -euo pipefail
 
@@ -76,6 +61,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Wiki already up to date."
           else
-            git commit -m "Sync documentation to wiki (${SOURCE_SHA})"
+            git commit -m "Sync documentation to wiki (${GITHUB_SHA})"
             git push
           fi
