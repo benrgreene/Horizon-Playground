@@ -5,6 +5,9 @@ on:
     paths:
       - 'documentation/**'
       - '.github/workflows/sync-wiki.yml'
+  # Manual "Run workflow" button. Deliberately unfiltered by `paths` so an
+  # on-demand sync always runs — e.g. to recover after enabling Wikis.
+  workflow_dispatch:
 permissions:
   contents: write
 concurrency:
