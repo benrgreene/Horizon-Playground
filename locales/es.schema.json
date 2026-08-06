@@ -1,5 +1,6 @@
 {
   "names": {
+    "product_faqs": "Product FAQs",
     "404": "404",
     "colors": "Paleta de colores",
     "custom_section": "Sección personalizada",
@@ -853,6 +854,7 @@
     "input_field": "Campo de entrada"
   },
   "content": {
+    "product_faqs_metafield_content": "Questions and answers come from this product's FAQs metafield (custom.faqs). Nothing displays until FAQ entries are attached to the product.",
     "advanced": "Avanzado",
     "background_image": "Imagen de fondo",
     "background_video": "Video de fondo",
@@ -1038,6 +1040,7 @@
     "shop_collection": "<p>Descubre nuestra colección seleccionada con favoritos seleccionados a mano que combinan estilo y calidad.</p>"
   },
   "text_defaults": {
+    "frequently_asked_questions": "Frequently asked questions",
     "button_label": "Comprar ahora",
     "collapsible_row": "Fila plegable",
     "heading": "Título",

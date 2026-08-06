@@ -1,5 +1,6 @@
 {
   "names": {
+    "product_faqs": "Product FAQs",
     "404": "404",
     "custom_section": "Sekcja niestandardowa",
     "icon": "Ikona",
@@ -853,6 +854,7 @@
     "input_field": "Pole wprowadzania"
   },
   "content": {
+    "product_faqs_metafield_content": "Questions and answers come from this product's FAQs metafield (custom.faqs). Nothing displays until FAQ entries are attached to the product.",
     "background_video": "Wideo w tle",
     "describe_the_video_for": "Opisz film dla klientów korzystających z czytników ekranu. [Dowiedz się więcej](https://help.shopify.com/manual/online-store/themes/theme-structure/theme-features#video-block)",
     "width_is_automatically_optimized": "Szerokość jest automatycznie optymalizowana pod kątem urządzeń mobilnych.",
@@ -1038,6 +1040,7 @@
     "featured_collection_h3": "<h3>Polecana kolekcja</h3>"
   },
   "text_defaults": {
+    "frequently_asked_questions": "Frequently asked questions",
     "collapsible_row": "Wiersz zwijany",
     "button_label": "Kup teraz",
     "heading": "Nagłówek",

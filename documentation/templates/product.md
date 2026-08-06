@@ -10,9 +10,11 @@ These are the product metafield definitions that exist in the store. Merchants f
 |---|---|---|---|
 | `test_data.binding_mount` | Snowboard binding mount | `single_line_text_field` | The type of binding mount used on the snowboard. |
 | `test_data.snowboard_length` | Snowboard length | `dimension` | The length of the snowboard. Stored as a value plus a unit, not free text. |
-| `custom.faqs` | FAQs | `list.metaobject_reference` | An ordered list of [FAQ metaobject](../metaobjects/faq.md) entries attached to the product. No description is set on the definition. |
+| `custom.faqs` | FAQs | `list.metaobject_reference` | An ordered list of [FAQ metaobject](../metaobjects/faq.md) entries attached to the product. No description is set on the definition. **Rendered by the `Product FAQs` section** — see below. |
 
-> ⚠️ **None of these three definitions is referenced anywhere in the theme.** Values entered against them are stored on the product and are available to the Liquid and the APIs, but no template, section, or block currently renders them, so they do not appear on the storefront. The `test_data` namespace and the snowboard subject matter suggest these were created for experimentation.
+> ⚠️ **The two `test_data` definitions are not referenced anywhere in the theme.** Values entered against them are stored on the product and are available to the Liquid and the APIs, but no template, section, or block renders them, so they do not appear on the storefront. The `test_data` namespace and the snowboard subject matter suggest these were created for experimentation.
+
+`custom.faqs` is the exception: `sections/product-faqs.liquid` reads it. That section is **not** part of `templates/product.json`, so it renders only once a merchant adds it to a product template in the theme editor.
 
 ## Metafields the theme reads
 
@@ -58,8 +60,22 @@ Related-product grid below the main product, headed "You may also like".
 
 Settings: `recommendation_type` is `related` (Shopify's own recommendation engine), showing up to 4 products in a 4-column grid, 2 columns on mobile.
 
+## Sections available but not in the template
+
+### `Product FAQs` — `sections/product-faqs.liquid`
+
+Restricted to product templates via `enabled_on: { templates: ["product"] }`, so it appears in the editor's add-section picker (under **Product**) only on a product template. It reads `product.metafields.custom.faqs` and renders one `<details>`/`<summary>` accordion row per [FAQ entry](../metaobjects/faq.md) — question as the summary, answer as the content.
+
+Behaviour worth knowing:
+
+- Entries with a blank `question` are skipped, since the summary is the only label for the control.
+- If the product has no FAQ entries — or none with a question — the section outputs nothing at all.
+- The answer is a plain-text field, so it is rendered with `escape | newline_to_br`: line breaks survive, markup does not.
+
+Settings cover the heading and its size preset, the question size preset, caret-vs-plus icon, opening the first row by default, dividers and divider color, text and background color, section width, and vertical padding.
+
 ## Related
 
-- [FAQ metaobject](../metaobjects/faq.md) — the target of `custom.faqs`
+- [FAQ metaobject](../metaobjects/faq.md) — the target of `custom.faqs`, rendered by the `Product FAQs` section
 - [Theme blocks](../blocks.md) — full settings for every block named above
 - [Global sections](../global-sections.md) — the header and footer wrapping this page

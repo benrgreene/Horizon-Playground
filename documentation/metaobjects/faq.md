@@ -22,19 +22,18 @@ A reusable question-and-answer entry. Each FAQ entry holds one question and its 
 
 FAQ entries are attached to products through the **`custom.faqs`** product metafield (`list.metaobject_reference`), which holds an ordered list of FAQ entries. See the [product template doc](../templates/product.md) for that definition.
 
-## ⚠️ Not currently rendered by the theme
+## Rendered by the `Product FAQs` section
 
-**Nothing in the theme reads this metaobject.** A search of every `.liquid` file for `metaobject` references and for `metafields.custom.faqs` returns no matches.
+**`sections/product-faqs.liquid`** is the only thing in the theme that reads this metaobject. It is restricted to product templates (`enabled_on: { templates: ["product"] }`) and renders one `<details>`/`<summary>` accordion row per entry — `question` as the summary, `answer` as the content — reusing the theme's existing accordion machinery ([`accordion-custom-component`](../../snippets/accordion-custom-component.liquid) and [`accordion-styles`](../../snippets/accordion-styles.liquid)).
 
-The practical consequence: **FAQ entries created in the admin, and FAQs attached to a product via `custom.faqs`, will not appear anywhere on the storefront.** The data is stored correctly and is queryable — it simply has no template rendering it yet.
+The section is **not** part of `templates/product.json`. A merchant has to add it to a product template in the theme editor; until then, FAQ entries still won't appear on the storefront even though the data is attached.
 
-Making them visible requires theme work. The natural place is the existing [`accordion` block](../blocks.md#accordion) together with [`_accordion-row`](../blocks.md#_accordion-row), which already provide the collapsible question/answer UI this data is shaped for. Rendering would look roughly like:
+How the section handles this metaobject's two optional fields:
 
-```liquid
-{%- for faq in closest.product.metafields.custom.faqs.value -%}
-  {{ faq.question.value }}
-  {{ faq.answer.value }}
-{%- endfor -%}
-```
+| Situation | Result |
+|---|---|
+| `question` is blank | The entry is **skipped entirely.** The summary is the only label on the control, so a blank one would be an unusable button. |
+| `answer` is blank | The row still renders and opens, with an empty body. |
+| Neither field is filled on any entry | The section outputs nothing at all — no empty container, no padding. |
 
-Until a block or section does something like that, treat this metaobject as **defined but inactive**.
+Because `answer` is `multi_line_text_field` (plain text, no formatting), it is rendered with `escape | newline_to_br`: paragraph breaks are preserved as `<br>`, and any markup a merchant types shows up as literal text rather than being interpreted. This matches how the theme treats its other plain-text metaobject field in [`snippets/cart-disclosure-tooltip.liquid`](../../snippets/cart-disclosure-tooltip.liquid).

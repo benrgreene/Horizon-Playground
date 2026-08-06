@@ -1,5 +1,6 @@
 {
   "names": {
+    "product_faqs": "Product FAQs",
     "404": "404",
     "colors": "Farvepalet",
     "custom_section": "Brugerdefineret sektion",
@@ -853,6 +854,7 @@
     "input_field": "Indtastningsfelt"
   },
   "content": {
+    "product_faqs_metafield_content": "Questions and answers come from this product's FAQs metafield (custom.faqs). Nothing displays until FAQ entries are attached to the product.",
     "advanced": "Avanceret",
     "background_image": "Baggrundsbillede",
     "background_video": "Baggrundsvideo",
@@ -1038,6 +1040,7 @@
     "shop_collection": "<p>Opdag vores nøje udvalgte kollektion med håndplukkede favoritter, der forener stil og kvalitet.</p>"
   },
   "text_defaults": {
+    "frequently_asked_questions": "Frequently asked questions",
     "button_label": "Køb nu",
     "collapsible_row": "Række, der kan skjules",
     "heading": "Overskrift",

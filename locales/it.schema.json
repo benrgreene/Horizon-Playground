@@ -1,5 +1,6 @@
 {
   "names": {
+    "product_faqs": "Product FAQs",
     "404": "404",
     "colors": "Palette colori",
     "custom_section": "Sezione personalizzata",
@@ -853,6 +854,7 @@
     "input_field": "Campo di inserimento"
   },
   "content": {
+    "product_faqs_metafield_content": "Questions and answers come from this product's FAQs metafield (custom.faqs). Nothing displays until FAQ entries are attached to the product.",
     "advanced": "Avanzate",
     "background_image": "Immagine di sfondo",
     "background_video": "Video di sfondo",
@@ -1038,6 +1040,7 @@
     "featured_collection_h3": "<h3>Collezione in primo piano</h3>"
   },
   "text_defaults": {
+    "frequently_asked_questions": "Frequently asked questions",
     "button_label": "Acquista ora",
     "collapsible_row": "Riga comprimibile",
     "heading": "Intestazione",

@@ -1,5 +1,6 @@
 {
   "names": {
+    "product_faqs": "Product FAQs",
     "404": "404",
     "colors": "调色板",
     "custom_section": "自定义分区",
@@ -853,6 +854,7 @@
     "input_field": "输入字段"
   },
   "content": {
+    "product_faqs_metafield_content": "Questions and answers come from this product's FAQs metafield (custom.faqs). Nothing displays until FAQ entries are attached to the product.",
     "advanced": "高级",
     "background_image": "背景图片",
     "background_video": "背景视频",
@@ -1038,6 +1040,7 @@
     "featured_collection_h3": "<h3>特色系列</h3>"
   },
   "text_defaults": {
+    "frequently_asked_questions": "Frequently asked questions",
     "button_label": "立即购买",
     "collapsible_row": "可折叠行",
     "heading": "标题",

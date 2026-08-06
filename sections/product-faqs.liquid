@@ -1,0 +1,338 @@
+{%- liquid
+  assign section_settings = section.settings
+  assign faqs = product.metafields.custom.faqs.value
+
+  assign has_custom_colors = false
+  if section_settings.background_color != blank or section_settings.text_color != blank
+    assign has_custom_colors = true
+  endif
+-%}
+
+{%- capture faq_rows -%}
+  {%- assign rendered_count = 0 -%}
+  {%- for faq in faqs -%}
+    {%- assign question = faq.question.value -%}
+    {%- comment -%}
+      Neither FAQ metaobject field is required, so an entry can be saved with an empty
+      question. Skip those: an empty <summary> is an unlabelled, unusable control.
+    {%- endcomment -%}
+    {%- if question == blank -%}
+      {%- continue -%}
+    {%- endif -%}
+
+    {%- assign answer = faq.answer.value -%}
+
+    {%- comment -%}
+      Keyed off rendered_count rather than forloop.first, so the first *rendered* row
+      opens even when earlier entries were skipped for a blank question.
+    {%- endcomment -%}
+    {%- assign open_row = false -%}
+    {%- if rendered_count == 0 and section_settings.open_by_default -%}
+      {%- assign open_row = true -%}
+    {%- endif -%}
+
+    {%- capture faq_row -%}
+      <details
+        class="details"
+        data-testid="accordion-details"
+        {% if open_row %}
+          open
+        {% endif %}
+      >
+        <summary class="details__header">
+          {{- question | escape -}}
+          <span class="svg-wrapper icon-caret icon-animated">
+            {{- 'icon-caret.svg' | inline_asset_content -}}
+          </span>
+          <span class="svg-wrapper icon-plus">
+            {{- 'icon-plus.svg' | inline_asset_content -}}
+          </span>
+        </summary>
+
+        <div class="details-content">
+          {%- if answer != blank -%}
+            <div class="product-faqs__answer">{{ answer | escape | newline_to_br }}</div>
+          {%- endif -%}
+        </div>
+      </details>
+    {%- endcapture -%}
+
+    {%- render 'accordion-custom-component',
+      children: faq_row,
+      close_with_escape: true,
+      open_by_default_on_desktop: open_row,
+      open_by_default_on_mobile: open_row
+    -%}
+
+    {%- assign rendered_count = rendered_count | plus: 1 -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- assign faq_rows = faq_rows | strip -%}
+
+{%- if faq_rows != blank -%}
+  {%- if has_custom_colors -%}
+    {%- render 'contrast-override',
+      background_color: section_settings.background_color,
+      text_color: section_settings.text_color,
+      section_id: section.id
+    -%}
+  {%- endif -%}
+
+  <div
+    class="section-background{% if section_settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  ></div>
+  <div
+    class="section section--{{ section_settings.section_width }} spacing-style{% if has_custom_colors %} color-custom-{{ section.id }}{% endif %}"
+    style="{% render 'spacing-style', settings: section_settings %}"
+  >
+    {%- if section_settings.heading != blank -%}
+      <h2 class="product-faqs__heading {{ section_settings.heading_preset }}">
+        {{- section_settings.heading | escape -}}
+      </h2>
+    {%- endif -%}
+
+    <div
+      class="accordion accordion--{{ section.id }} accordion--{{ section_settings.icon }}{% if section_settings.dividers %} accordion--dividers{% endif %}{% if has_custom_colors %} color-custom-{{ section.id }}{% endif %}"
+      style="
+        --summary-font-family: var(--font-{{ section_settings.question_preset }}--family);
+        --summary-font-style: var(--font-{{ section_settings.question_preset }}--style);
+        --summary-font-weight: var(--font-{{ section_settings.question_preset }}--weight);
+        --summary-font-size: var(--font-{{ section_settings.question_preset }}--size);
+        --summary-font-line-height: var(--font-{{ section_settings.question_preset }}--line-height);
+        --summary-font-case: var(--font-{{ section_settings.question_preset }}--case);
+        {%- comment -%}
+          Load-bearing, do not remove: snippets/accordion-styles.liquid only turns on the
+          first/last divider rules for `.accordion--dividers[style*='--border-width: 0']`
+          (or `--border-style: none`). blocks/accordion.liquid gets this incidentally from
+          `border-override`, which needs border settings this section does not have.
+        {%- endcomment -%}
+        --border-width: 0;
+        {%- if section_settings.divider_color != blank %} --color-border: {{ section_settings.divider_color }};{% endif -%}
+      "
+    >
+      {{ faq_rows }}
+    </div>
+  </div>
+{%- endif -%}
+
+{% render 'accordion-styles' %}
+
+{% stylesheet %}
+  .product-faqs__heading {
+    margin-block-end: var(--margin-lg);
+  }
+
+  .product-faqs__answer {
+    max-width: var(--normal-content-width);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.product_faqs",
+  "tag": "section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:content.product_faqs_metafield_content"
+    },
+    {
+      "type": "header",
+      "content": "t:content.heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "t:text_defaults.frequently_asked_questions"
+    },
+    {
+      "type": "select",
+      "id": "heading_preset",
+      "label": "t:settings.heading_preset",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.default"
+        },
+        {
+          "value": "paragraph",
+          "label": "t:options.paragraph"
+        },
+        {
+          "value": "h1",
+          "label": "t:options.h1"
+        },
+        {
+          "value": "h2",
+          "label": "t:options.h2"
+        },
+        {
+          "value": "h3",
+          "label": "t:options.h3"
+        },
+        {
+          "value": "h4",
+          "label": "t:options.h4"
+        },
+        {
+          "value": "h5",
+          "label": "t:options.h5"
+        },
+        {
+          "value": "h6",
+          "label": "t:options.h6"
+        }
+      ],
+      "default": "h4",
+      "info": "t:info.edit_presets_in_theme_settings"
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "select",
+      "id": "question_preset",
+      "label": "t:settings.title_preset",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.default"
+        },
+        {
+          "value": "paragraph",
+          "label": "t:options.paragraph"
+        },
+        {
+          "value": "h1",
+          "label": "t:options.h1"
+        },
+        {
+          "value": "h2",
+          "label": "t:options.h2"
+        },
+        {
+          "value": "h3",
+          "label": "t:options.h3"
+        },
+        {
+          "value": "h4",
+          "label": "t:options.h4"
+        },
+        {
+          "value": "h5",
+          "label": "t:options.h5"
+        },
+        {
+          "value": "h6",
+          "label": "t:options.h6"
+        }
+      ],
+      "default": "h5",
+      "info": "t:info.edit_presets_in_theme_settings"
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "t:settings.icon",
+      "options": [
+        {
+          "value": "caret",
+          "label": "t:options.caret"
+        },
+        {
+          "value": "plus",
+          "label": "t:options.plus"
+        }
+      ],
+      "default": "caret"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_by_default",
+      "label": "t:settings.open_by_default",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "dividers",
+      "label": "t:settings.dividers",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "t:settings.divider_color",
+      "placeholder": "t:settings.default",
+      "visible_if": "{{ section.settings.dividers }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:options.page"
+        },
+        {
+          "value": "full-width",
+          "label": "t:options.full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_faqs",
+      "category": "t:categories.product",
+      "settings": {
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    }
+  ]
+}
+{% endschema %}

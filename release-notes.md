@@ -7,6 +7,7 @@ This release ships multiple bug fixes and performance improvements.
 ### Fixes and improvements
 
 * Replace English-only section and block names with translated strings
+* [Product page] Add a Product FAQs section that renders the product's `custom.faqs` metaobject entries as an accordion
 * Disable page view transitions in all Android web views to address reported errors
 * [Header] Open header submenus when hovering from below
 * [Filters] Color overrides apply to both horizontal and vertical filters
