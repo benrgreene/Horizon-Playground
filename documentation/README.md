@@ -25,6 +25,7 @@ Two sections exist in `sections/` but are in no `templates/*.json`, so a merchan
 |---|---|---|
 | Product FAQs | `sections/product-faqs.liquid` | `custom.faqs` product metafield → [`faq`](metaobjects/faq.md) entries. Product templates only. |
 | Compare chart | `sections/compare-chart.liquid` | [`compare_title_row`](metaobjects/compare-title-row.md) + [`compare_row`](metaobjects/compare-row.md) entries, picked in the editor. Any template except the header and footer groups. |
+| Toasts | `sections/toasts.liquid` | Merchant-authored `_toast` blocks. Footer group only — see [Global sections](global-sections.md#toasts-toasts). Once added it appears on every page. |
 
 ## How to read these docs
 

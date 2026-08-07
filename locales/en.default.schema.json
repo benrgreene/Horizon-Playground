@@ -412,6 +412,8 @@
     "swatches": "Swatches",
     "text": "Text",
     "title": "Title",
+    "toasts": "Toasts",
+    "toast": "Toast",
     "typography": "Typography",
     "utilities": "Utilities",
     "policies_and_links": "Policies and links",
@@ -489,6 +491,8 @@
     // Icon option for dietary restriction indication
     "dairy_free": "Dairy free",
     "default": "Default",
+    "success": "Success",
+    "error": "Error",
     "diamond": "Diamond",
     "dissolve": "Dissolve",
     "dots": "Dots",

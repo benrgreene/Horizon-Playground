@@ -1,5 +1,7 @@
 {
   "names": {
+    "toast": "Toast",
+    "toasts": "Toasts",
     "compare_chart": "Compare Chart",
     "product_faqs": "Product FAQs",
     "404": "404",
@@ -580,6 +582,8 @@
     "title_preset": "Préréglage du titre"
   },
   "options": {
+    "error": "Error",
+    "success": "Success",
     "apple": "Pomme",
     "arrow": "Flèche",
     "banana": "Banane",

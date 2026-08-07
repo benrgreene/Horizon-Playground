@@ -2,7 +2,7 @@
 
 Every block in the theme's `blocks/` directory, one subsection per block type, ordered alphabetically. Blocks are the nestable units merchants arrange inside sections in the theme editor.
 
-The theme defines **96 blocks**: **44 public** (merchants can add them wherever a section accepts `@theme` blocks) and **52 private**.
+The theme defines **97 blocks**: **44 public** (merchants can add them wherever a section accepts `@theme` blocks) and **53 private**.
 
 > **Underscore prefix = private block.** A block whose filename starts with `_` is excluded from `@theme` and can only be placed by a parent that names its type explicitly. Renaming a block to or from an underscore changes whether merchants can insert it directly.
 

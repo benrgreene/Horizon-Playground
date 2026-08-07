@@ -1,5 +1,7 @@
 {
   "names": {
+    "toast": "Toast",
+    "toasts": "Toasts",
     "compare_chart": "Compare Chart",
     "product_faqs": "Product FAQs",
     "404": "404",
@@ -580,6 +582,8 @@
     "title_preset": "제목 사전 설정"
   },
   "options": {
+    "error": "Error",
+    "success": "Success",
     "apple": "Apple",
     "arrow": "화살표",
     "banana": "바나나",

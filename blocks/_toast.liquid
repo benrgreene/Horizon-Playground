@@ -1,0 +1,180 @@
+{%- liquid
+  assign block_settings = block.settings
+  assign has_content = false
+  if block_settings.title != blank or block_settings.content != blank
+    assign has_content = true
+  endif
+-%}
+
+{%- if has_content -%}
+  <toast-component
+    class="toast toast--{{ block_settings.type }}"
+    data-toast-key="{{ block.id }}"
+    {{ block.shopify_attributes }}
+  >
+    <div class="toast__body">
+      {%- if block_settings.title != blank -%}
+        <p class="toast__title">{{ block_settings.title | escape }}</p>
+      {%- endif -%}
+      {%- if block_settings.content != blank -%}
+        <div class="toast__content">{{ block_settings.content }}</div>
+      {%- endif -%}
+    </div>
+
+    <button
+      type="button"
+      class="toast__dismiss"
+      aria-label="{{ 'actions.close' | t }}"
+      on:click="/dismiss"
+    >
+      <span class="svg-wrapper">
+        {{- 'icon-close.svg' | inline_asset_content -}}
+      </span>
+    </button>
+  </toast-component>
+{%- else -%}
+  <div
+    hidden
+    shopify-block-empty
+  ></div>
+{%- endif -%}
+
+{% stylesheet %}
+  .toast {
+    --toast-accent: var(--color-border);
+
+    display: flex;
+    align-items: flex-start;
+    gap: var(--gap-sm);
+    padding: var(--padding-sm) var(--padding-md);
+    border: var(--style-border-width) solid var(--toast-accent);
+    border-radius: var(--style-border-radius-popover);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    box-shadow: 0 2px 12px rgb(0 0 0 / var(--opacity-10));
+    pointer-events: auto;
+    text-align: start;
+  }
+
+  .toast[hidden] {
+    display: none;
+  }
+
+  /*
+   * Only --color-success and --color-error exist as theme tokens, so the type setting
+   * offers Default / Success / Error rather than inventing warning and info colors.
+   * The accent tints the border and title only, keeping body text on the palette
+   * foreground so contrast stays readable on any background.
+   */
+  .toast--success {
+    --toast-accent: var(--color-success);
+  }
+
+  .toast--error {
+    --toast-accent: var(--color-error);
+  }
+
+  .toast__body {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .toast__title {
+    margin: 0;
+    font-weight: var(--font-weight-bold, bold);
+    color: var(--toast-accent);
+  }
+
+  .toast--default .toast__title {
+    color: inherit;
+  }
+
+  .toast__content {
+    margin-block-start: var(--margin-2xs);
+  }
+
+  .toast__content > :first-child {
+    margin-block-start: 0;
+  }
+
+  .toast__content > :last-child {
+    margin-block-end: 0;
+  }
+
+  .toast__dismiss {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    /* Keeps the hit area at the 44px accessibility minimum without bloating the toast. */
+    min-width: var(--minimum-touch-target);
+    min-height: var(--minimum-touch-target);
+    margin: calc(-1 * var(--padding-xs)) calc(-1 * var(--padding-sm)) 0 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  /*
+   * The slide-in is deliberate cover for the dismissed-toast check: toast.js is a
+   * deferred module, so an already-dismissed toast is hidden a frame or two after
+   * paint. Animating entry means that never reads as a flash of content.
+   */
+  @media screen and (prefers-reduced-motion: no-preference) {
+    .toast {
+      animation: toast-enter var(--animation-speed, 200ms) var(--animation-easing, ease-out) both;
+    }
+
+    @keyframes toast-enter {
+      from {
+        opacity: 0;
+        transform: translateY(var(--gap-sm));
+      }
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.toast",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:settings.title"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "t:settings.content"
+    },
+    {
+      "type": "select",
+      "id": "type",
+      "label": "t:settings.type",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:options.default"
+        },
+        {
+          "value": "success",
+          "label": "t:options.success"
+        },
+        {
+          "value": "error",
+          "label": "t:options.error"
+        }
+      ],
+      "default": "default"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.toast"
+    }
+  ]
+}
+{% endschema %}

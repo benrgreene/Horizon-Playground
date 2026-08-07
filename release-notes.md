@@ -9,6 +9,7 @@ This release ships multiple bug fixes and performance improvements.
 * Replace English-only section and block names with translated strings
 * [Product page] Add a Product FAQs section that renders the product's `custom.faqs` metaobject entries as an accordion
 * [Compare chart] Add a Compare chart section that builds a comparison table from `compare_title_row` and `compare_row` metaobjects
+* [Toasts] Add a footer-only Toasts section rendering a stack of dismissible notices fixed to the bottom-right of the viewport
 * Disable page view transitions in all Android web views to address reported errors
 * [Header] Open header submenus when hovering from below
 * [Filters] Color overrides apply to both horizontal and vertical filters

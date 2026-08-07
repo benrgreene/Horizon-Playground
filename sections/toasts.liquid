@@ -1,0 +1,82 @@
+{%- comment -%}
+  Deliberately does NOT use the standard `.section` / `.section-background` wrapper.
+  That pattern is a three-column page grid for in-flow content (assets/base.css:335),
+  and it absolutely positions the background against the section. A viewport-fixed
+  overlay needs neither, so this section owns its own container.
+
+  Loaded once here rather than per block, so N toasts do not emit N script tags.
+{%- endcomment -%}
+
+{%- if section.blocks.size > 0 -%}
+  <script
+    src="{{ 'toast.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+
+  <div class="toasts">
+    {% content_for 'blocks' %}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .toasts {
+    position: fixed;
+    inset-block-end: var(--page-margin);
+    inset-inline-end: var(--page-margin);
+    /*
+     * Above page content and sticky elements, but below the header menu (12), overlays
+     * (16) and drawers (18) — so opening the cart drawer correctly covers the toasts
+     * instead of them floating on top of it.
+     */
+    z-index: var(--layer-window-overlay);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+
+    /* Never let the stack dominate a narrow viewport, and keep it inside page margins. */
+    width: min(24rem, calc(100vw - 2 * var(--page-margin)));
+
+    /*
+     * The stack spans a tall thin strip that is mostly empty. Without this it would
+     * swallow clicks meant for the page behind it; each toast re-enables pointer
+     * events on itself.
+     */
+    pointer-events: none;
+  }
+
+  /* Collapses the gap left behind by dismissed toasts and empty blocks. */
+  .toasts:not(:has(toast-component:not([hidden]))) {
+    display: none;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.toasts",
+  "tag": "div",
+  "class": "toasts-section",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "blocks": [
+    {
+      "type": "_toast"
+    }
+  ],
+  "settings": [],
+  "presets": [
+    {
+      "name": "t:names.toasts",
+      "category": "t:categories.footer",
+      "blocks": {
+        "toast-1": {
+          "type": "_toast"
+        }
+      },
+      "block_order": ["toast-1"]
+    }
+  ]
+}
+{% endschema %}
