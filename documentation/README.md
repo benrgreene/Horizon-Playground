@@ -8,8 +8,9 @@ The theme is a copy of Shopify's **Horizon** theme (v4.1.3). The connected store
 
 | Page | What it covers |
 |---|---|
-| [Theme blocks](blocks.md) | All 95 blocks in `blocks/` — settings, nesting, and where each is used |
+| [Theme blocks](blocks.md) | All 96 blocks in `blocks/` — settings, nesting, and where each is used |
 | [Global sections](global-sections.md) | Header, announcement bar, footer, and footer utilities — the sections on every page |
+| [Standalone sections](standalone-sections.md) | Compare chart and Product FAQs — the sections a merchant adds by hand |
 | [Product template](templates/product.md) | Product metafield definitions and the product page's sections |
 | [Collection template](templates/collection.md) | Collection metafields and the collection / collection-list pages |
 | [Page template](templates/page.md) | Page metafields and the page / contact page templates |
@@ -19,7 +20,7 @@ The theme is a copy of Shopify's **Horizon** theme (v4.1.3). The connected store
 
 ### Sections not in any template
 
-Two sections exist in `sections/` but are in no `templates/*.json`, so a merchant has to add them in the theme editor:
+Two sections exist in `sections/` but are in no `templates/*.json`, so a merchant has to add them in the theme editor — both are covered in [Standalone sections](standalone-sections.md):
 
 | Section | File | Data source |
 |---|---|---|

@@ -44,3 +44,4 @@ If a whole chart looks short, count the items in each row against the column tit
 ## Related
 
 - [Compare Title Row](compare-title-row.md) — supplies the column titles and therefore the required row length
+- [Compare chart section](../standalone-sections.md#compare-chart-compare-chart) — the section that renders these rows, and its settings

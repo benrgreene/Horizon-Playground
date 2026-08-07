@@ -38,3 +38,8 @@ The section renders one `<th>` per list item, preceded by an empty corner cell t
 **The length of this list is the chart's contract.** Every [Compare Row](compare-row.md) attached to the same chart must have exactly this many "Row Checks", or that row is dropped from the storefront. So changing the number of items here will silently invalidate every existing row — expect to update all of them together.
 
 This is the first `metaobject` picker setting in the theme; every other custom-data binding goes through a metafield.
+
+## Related
+
+- [Compare Row](compare-row.md) — the body rows whose length this list dictates
+- [Compare chart section](../standalone-sections.md#compare-chart-compare-chart) — the section that renders these columns, and its settings
