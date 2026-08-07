@@ -9,6 +9,12 @@ The sections that appear on every page, defined by the theme's two section group
 | `sections/footer-group.json` | Footer | `footer` | Main footer block canvas |
 | `sections/footer-group.json` | Policies and links | `footer-utilities` | Copyright, policy links, social icons |
 
+One further section may be added to the footer group but is **not currently placed in it**:
+
+| Group file | Section | Type | Role |
+|---|---|---|---|
+| _(available to `sections/footer-group.json`)_ | Toasts | `toasts` | Dismissible site-wide notifications — see [below](#toasts-toasts) |
+
 Editing these in the theme editor changes them site-wide. Settings below are the section's own settings; the content inside each comes from blocks, documented in [Theme blocks](blocks.md).
 
 ---
@@ -184,6 +190,28 @@ File: `sections/footer.liquid`
 |---|---|---|
 | `padding-block-start` | `range` (slider) | Top |
 | `padding-block-end` | `range` (slider) | Bottom |
+
+## Toasts (`toasts`)
+
+A stack of dismissible notifications pinned to the bottom-right corner of the viewport — for a shipping notice, a promo announcement, or anything else that should follow the shopper around the store without taking up space in the page flow.
+
+File: `sections/toasts.liquid`
+
+**Accepted blocks:** `_toast`
+
+**Currently placed in the group:** _none — this section is not in `sections/footer-group.json` yet._
+
+Unlike the four sections above, `Toasts` is **not currently part of the footer group**. It is restricted to that group via `enabled_on: { groups: ["footer"] }`, so it appears in the theme editor's add-section picker (under **Footer**) only there. Adding it once makes it appear on **every page** of the store, which is the point — but also means an unwanted toast is site-wide, not page-specific.
+
+**Settings:** none. The section is purely a container; everything visible comes from the [`_toast`](blocks.md#_toast) blocks inside it. Adding the section from its preset starts you with one empty toast.
+
+Behaviour worth knowing:
+
+- **The section renders nothing when it has no blocks**, and the stack collapses when every toast in it has been dismissed or left empty — so it never leaves a floating gap over the page.
+- Each toast is dismissed independently and **stays dismissed for the rest of the browsing session**; see the [`_toast` block](blocks.md#_toast) for the details.
+- The stack sits above page content and sticky elements but **below the header menu, overlays, and drawers**, so opening the cart drawer covers the toasts rather than the toasts floating on top of it.
+- The stack is capped at `24rem` wide and stays inside the page margins, so it does not dominate a narrow viewport.
+- Only the toast cards themselves capture clicks — the empty area of the stack does not swallow clicks meant for the page behind it.
 
 ## Policies and links (`footer-utilities`)
 
