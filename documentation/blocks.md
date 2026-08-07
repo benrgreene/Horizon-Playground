@@ -109,6 +109,7 @@ The theme defines **97 blocks**: **44 public** (merchants can add them wherever 
 - [Search input](#_search-input) — `_search-input`
 - [Slide](#_slide) — `_slide`
 - [Social link](#_social-link) — `_social-link`
+- [Toast](#_toast) — `_toast`
 
 ---
 
@@ -3383,3 +3384,29 @@ Used by: `_footer-social-icons.liquid`
 |---|---|---|
 | `link` | `url` (link) | Link |
 | `icon_color` | `color` (color) | Color |
+
+## _toast
+
+**Toast** · Private block · file `blocks/_toast.liquid`
+
+Theme-editor presets: `Toast`
+
+Used by: `toasts.liquid`
+
+One dismissible notification in the toast stack — a small card pinned to the bottom-right of the viewport, carrying an optional title, some rich-text content, and a close button. Merchants add these inside the `Toasts` section; see [Global sections](global-sections.md#toasts-toasts) for the container.
+
+Behaviour worth knowing:
+
+- **A toast with neither a title nor content renders nothing** (it reports itself empty to the theme editor rather than drawing a blank card), so an unfilled block never reaches the storefront.
+- **Dismissal sticks for the browsing session.** Closing a toast records it in `sessionStorage` under the block's id. Because the `Toasts` section lives in the footer group and therefore renders on every page, without this a dismissed toast would come straight back on the next navigation. Closing the tab clears it.
+- **In the theme editor the stored dismissals are ignored**, so a merchant always sees the toasts they are editing rather than ones they closed while previewing.
+- The `type` setting tints the border and the title only; body text stays on the palette foreground so contrast holds on any background. Only Default, Success, and Error are offered because `--color-success` and `--color-error` are the only accent tokens the theme defines.
+- Content is a rich-text field, so links and basic formatting are preserved. The title is plain text and is escaped.
+
+**Settings**
+
+| Setting | Type | What it controls |
+|---|---|---|
+| `title` | `text` (text) | Title — optional; shown in the accent color for Success and Error |
+| `content` | `richtext` (rich text) | Content — optional; the body of the toast |
+| `type` | `select` (choice) | Type — options: `default`, `success`, `error`. Default: `default` |
