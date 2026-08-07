@@ -1,5 +1,6 @@
 {
   "names": {
+    "compare_chart": "Compare Chart",
     "product_faqs": "Product FAQs",
     "404": "404",
     "custom_section": "사용자 지정 섹션",
@@ -163,6 +164,7 @@
     "disclosures": "고지 사항"
   },
   "settings": {
+    "title_row": "Title row",
     "autoplay": "자동 재생",
     "background": "배경",
     "border_radius": "모서리 반경",

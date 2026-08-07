@@ -2,7 +2,7 @@
 
 Every block in the theme's `blocks/` directory, one subsection per block type, ordered alphabetically. Blocks are the nestable units merchants arrange inside sections in the theme editor.
 
-The theme defines **95 blocks**: **44 public** (merchants can add them wherever a section accepts `@theme` blocks) and **51 private**.
+The theme defines **96 blocks**: **44 public** (merchants can add them wherever a section accepts `@theme` blocks) and **52 private**.
 
 > **Underscore prefix = private block.** A block whose filename starts with `_` is excluded from `@theme` and can only be placed by a parent that names its type explicitly. Renaming a block to or from an underscore changes whether merchants can insert it directly.
 
@@ -76,6 +76,7 @@ The theme defines **95 blocks**: **44 public** (merchants can add them wherever 
 - [Collection image](#_collection-image) — `_collection-image`
 - [Collection info](#_collection-info) — `_collection-info`
 - [Collection](#_collection-link) — `_collection-link`
+- [Row](#_compare-chart-row) — `_compare-chart-row`
 - [Content](#_content) — `_content`
 - [Content](#_content-without-appearance) — `_content-without-appearance`
 - [Divider](#_divider) — `_divider`
@@ -2303,6 +2304,24 @@ Used by: `collection-links.liquid`
 | Setting | Type | What it controls |
 |---|---|---|
 | `show_count` | `checkbox` (on/off) | Show count |
+
+## _compare-chart-row
+
+**Row** · Private block · file `blocks/_compare-chart-row.liquid`
+
+Theme-editor presets: `Row`
+
+Used by: `compare-chart.liquid`
+
+One body row of a comparison chart. Renders a single `<tr>`: the picked entry's `row_title` as a `<th scope="row">`, then one `<td>` per item in its `row_checks` list.
+
+The block reads its parent's `title_row` setting to learn how many columns the chart has, and **renders nothing unless its own check count matches exactly** — see [the Compare Row metaobject doc](metaobjects/compare-row.md#-the-row-length-rule). In the theme editor a mismatched row is replaced by a notice explaining the mismatch, so the row does not just silently vanish.
+
+**Settings**
+
+| Setting | Type | What it controls |
+|---|---|---|
+| `compare_row` | `metaobject` (entry picker, type `compare_row`) | Row |
 
 ## _content
 

@@ -1,5 +1,6 @@
 {
   "names": {
+    "compare_chart": "Compare Chart",
     "product_faqs": "Product FAQs",
     "404": "404",
     "colors": "จานสี",
@@ -163,6 +164,7 @@
     "disclosures": "การเปิดเผยข้อมูล"
   },
   "settings": {
+    "title_row": "Title row",
     "alignment": "การจัดตำแหน่ง",
     "autoplay": "เล่นอัตโนมัติ",
     "background": "พื้นหลัง",

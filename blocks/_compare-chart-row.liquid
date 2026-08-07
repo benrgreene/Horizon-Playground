@@ -1,0 +1,76 @@
+{%- liquid
+  assign row = block.settings.compare_row
+  assign row_title = row.row_title.value
+  assign checks = row.row_checks.value
+
+  comment
+    The parent section owns the <thead>, so the expected column count comes from its
+    title row. Reading section.settings from inside a theme block is the theme's
+    established parent/child contract — see blocks/_featured-blog-posts-title.liquid.
+  endcomment
+  assign expected = section.settings.title_row.string.value | size
+  assign actual = checks | size
+
+  assign is_valid = false
+  if row != blank and expected > 0 and actual == expected
+    assign is_valid = true
+  endif
+-%}
+
+{%- if is_valid -%}
+  <tr class="compare-chart__row" {{ block.shopify_attributes }}>
+    <th scope="row" class="compare-chart__row-title">{{ row_title | escape }}</th>
+    {%- for check in checks -%}
+      <td>{{ check | escape }}</td>
+    {%- endfor -%}
+  </tr>
+{%- elsif request.design_mode and row == blank -%}
+  {%- comment -%}
+    A block with nothing picked yet still needs a clickable target, otherwise it is
+    unselectable in the theme editor and adding a row appears to do nothing.
+  {%- endcomment -%}
+  <tr class="compare-chart__row compare-chart__row--empty" {{ block.shopify_attributes }}>
+    <th scope="row" class="compare-chart__row-title"></th>
+    {%- for i in (1..expected) -%}
+      <td></td>
+    {%- endfor -%}
+  </tr>
+{%- elsif request.design_mode -%}
+  {%- comment -%}
+    Mismatched row: hidden on the storefront as specified, but explained here so the
+    merchant can see why it vanished. colspan is `expected`, not expected + 1, because
+    the row title already occupies the first column.
+  {%- endcomment -%}
+  <tr class="compare-chart__row compare-chart__row--invalid" {{ block.shopify_attributes }}>
+    <th scope="row" class="compare-chart__row-title">{{ row_title | escape }}</th>
+    <td colspan="{{ expected | at_least: 1 }}">
+      {{- 'blocks.compare_chart_row_mismatch' | t: count: actual, expected: expected -}}
+    </td>
+  </tr>
+{%- else -%}
+  {%- comment -%}
+    Must be a <tr>, not the theme's usual <div hidden shopify-block-empty>: a <div>
+    inside <tbody> is invalid HTML and the parser hoists it out of the table.
+  {%- endcomment -%}
+  <tr hidden shopify-block-empty></tr>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:names.row",
+  "tag": null,
+  "settings": [
+    {
+      "type": "metaobject",
+      "id": "compare_row",
+      "label": "t:settings.row",
+      "metaobject_type": "compare_row"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.row"
+    }
+  ]
+}
+{% endschema %}

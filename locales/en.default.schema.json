@@ -254,6 +254,7 @@
   },
   "names": {
     "column": "Column",
+    "compare_chart": "Compare Chart",
     "product_title": "Product title",
     "custom_liquid": "Custom Liquid",
     "404": "404",
@@ -1125,6 +1126,7 @@
     "thickness": "Thickness",
     "title": "Title",
     "title_preset": "Title preset",
+    "title_row": "Title row",
     // Label for range input controlling top spacing/margin
     "top": "Top",
     "top_level_size": "Top level size",

@@ -1,5 +1,6 @@
 {
   "blocks": {
+    "compare_chart_row_mismatch": "This row has {{ count }} checks but the chart has {{ expected }} columns, so it's hidden on the storefront.",
     "load_video": "Cargar video: {{ description }}",
     "sold_out": "Agotado",
     "email_signup": {

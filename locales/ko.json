@@ -1,5 +1,6 @@
 {
   "blocks": {
+    "compare_chart_row_mismatch": "This row has {{ count }} checks but the chart has {{ expected }} columns, so it's hidden on the storefront.",
     "load_video": "동영상 로드: {{ description }}",
     "sold_out": "품절",
     "email_signup": {

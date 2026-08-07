@@ -1,5 +1,6 @@
 {
   "names": {
+    "compare_chart": "Compare Chart",
     "product_faqs": "Product FAQs",
     "404": "404",
     "colors": "Palette colori",
@@ -163,6 +164,7 @@
     "disclosures": "Informative"
   },
   "settings": {
+    "title_row": "Title row",
     "alignment": "Allineamento",
     "autoplay": "Riproduzione automatica",
     "background": "Sfondo",

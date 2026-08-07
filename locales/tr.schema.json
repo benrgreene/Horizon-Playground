@@ -1,5 +1,6 @@
 {
   "names": {
+    "compare_chart": "Compare Chart",
     "product_faqs": "Product FAQs",
     "404": "404",
     "custom_section": "Özel bölüm",
@@ -163,6 +164,7 @@
     "disclosures": "Bildirimler"
   },
   "settings": {
+    "title_row": "Title row",
     "autoplay": "Otomatik oynatma",
     "background": "Arka plan",
     "border_radius": "Köşe yarıçapı",

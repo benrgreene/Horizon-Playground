@@ -1,5 +1,6 @@
 {
   "names": {
+    "compare_chart": "Compare Chart",
     "product_faqs": "Product FAQs",
     "404": "404",
     "colors": "Paleta barev",
@@ -163,6 +164,7 @@
     "disclosures": "Prohlášení"
   },
   "settings": {
+    "title_row": "Title row",
     "alignment": "Zarovnání",
     "autoplay": "Automatické přehrávání",
     "background": "Pozadí",

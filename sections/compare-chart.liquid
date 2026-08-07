@@ -1,0 +1,261 @@
+{%- liquid
+  assign section_settings = section.settings
+  assign headers = section_settings.title_row.string.value
+  assign column_count = headers | size
+
+  assign has_custom_colors = false
+  if section_settings.background_color != blank or section_settings.text_color != blank
+    assign has_custom_colors = true
+  endif
+
+  if has_custom_colors
+    render 'contrast-override', background_color: section_settings.background_color, text_color: section_settings.text_color, section_id: section.id
+  endif
+-%}
+
+<div
+  class="section-background{% if section_settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+></div>
+<div
+  class="section section--{{ section_settings.section_width }}{% if has_custom_colors %} color-custom-{{ section.id }}{% endif %}"
+  {{ section.shopify_attributes }}
+>
+  <div
+    class="compare-chart spacing-style"
+    style="{% render 'spacing-style', settings: section_settings %}"
+  >
+    {%- if section_settings.title != blank -%}
+      <h2
+        id="CompareChartTitle-{{ section.id }}"
+        class="compare-chart__title {{ section_settings.title_preset }}"
+      >
+        {{- section_settings.title | escape -}}
+      </h2>
+    {%- endif -%}
+
+    {%- if column_count > 0 -%}
+      <div
+        class="compare-chart__scroller"
+        tabindex="0"
+        {% if section_settings.title != blank %}
+          role="region"
+          aria-labelledby="CompareChartTitle-{{ section.id }}"
+        {% endif %}
+      >
+        <table class="compare-chart__table">
+          <thead>
+            <tr>
+              <th class="compare-chart__corner" scope="col"></th>
+              {%- for header in headers -%}
+                <th scope="col">{{ header | escape }}</th>
+              {%- endfor -%}
+            </tr>
+          </thead>
+          <tbody>
+            {% content_for 'blocks' %}
+          </tbody>
+        </table>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .compare-chart__title {
+    margin-block-end: var(--margin-lg);
+  }
+
+  .compare-chart__scroller {
+    overflow-x: auto;
+  }
+
+  /*
+   * border-spacing, NOT border-collapse: collapse. Under `collapse` the borders are
+   * painted by the table rather than by the cell, so they do not travel with the
+   * position: sticky first column and visibly detach while scrolling sideways.
+   * snippets/cart-products.liquid uses the same border-spacing: 0 approach.
+   */
+  .compare-chart__table {
+    width: 100%;
+    border-spacing: 0;
+  }
+
+  .compare-chart__table :is(th, td) {
+    /*
+     * Load-bearing: automatic table layout shrinks the table to its container, so
+     * without a per-column minimum the chart would never overflow and the scroller
+     * above would have nothing to scroll.
+     */
+    min-width: var(--compare-chart-column-min, 8rem);
+    padding: var(--padding-sm);
+    text-align: start;
+    vertical-align: top;
+    border-block-end: var(--style-border-width) solid var(--color-border);
+  }
+
+  .compare-chart__table thead th {
+    font-weight: var(--font-weight-bold, bold);
+  }
+
+  /*
+   * The background-color is required, not decorative: without it the scrolled cells
+   * show through the pinned column. Using the variable rather than a literal is what
+   * makes it follow a custom section background, which contrast-override redefines.
+   */
+  .compare-chart__corner,
+  .compare-chart__row-title {
+    position: sticky;
+    inset-inline-start: 0;
+    z-index: 1;
+    background-color: var(--color-background);
+  }
+
+  .compare-chart__row--invalid {
+    opacity: var(--opacity-85);
+  }
+
+  .compare-chart__row--invalid td {
+    font-size: var(--font-size--xs);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.compare_chart",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [
+    {
+      "type": "_compare-chart-row"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:settings.title"
+    },
+    {
+      "type": "select",
+      "id": "title_preset",
+      "label": "t:settings.heading_preset",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.default"
+        },
+        {
+          "value": "paragraph",
+          "label": "t:options.paragraph"
+        },
+        {
+          "value": "h1",
+          "label": "t:options.h1"
+        },
+        {
+          "value": "h2",
+          "label": "t:options.h2"
+        },
+        {
+          "value": "h3",
+          "label": "t:options.h3"
+        },
+        {
+          "value": "h4",
+          "label": "t:options.h4"
+        },
+        {
+          "value": "h5",
+          "label": "t:options.h5"
+        },
+        {
+          "value": "h6",
+          "label": "t:options.h6"
+        }
+      ],
+      "default": "h4",
+      "info": "t:info.edit_presets_in_theme_settings"
+    },
+    {
+      "type": "metaobject",
+      "id": "title_row",
+      "label": "t:settings.title_row",
+      "metaobject_type": "compare_title_row"
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:options.page"
+        },
+        {
+          "value": "full-width",
+          "label": "t:options.full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.compare_chart",
+      "category": "t:categories.custom",
+      "settings": {
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      },
+      "blocks": {
+        "row-1": {
+          "type": "_compare-chart-row"
+        }
+      },
+      "block_order": ["row-1"]
+    }
+  ]
+}
+{% endschema %}
